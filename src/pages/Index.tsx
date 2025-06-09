@@ -13,6 +13,7 @@ import AlertsPage from '../components/alerts/AlertsPage';
 import SettingsPage from '../components/settings/SettingsPage';
 import AdminPanel from '../components/admin/AdminPanel';
 import ProtectedRoute from '../components/auth/ProtectedRoute';
+import NotFound from './NotFound';
 
 const Index = () => {
   return (
@@ -92,6 +93,7 @@ const Index = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </AuthProvider>
