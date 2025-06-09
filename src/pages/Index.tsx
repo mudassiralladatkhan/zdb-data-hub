@@ -1,13 +1,56 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from '../contexts/AuthContext';
+import LoginPage from '../components/auth/LoginPage';
+import RegisterPage from '../components/auth/RegisterPage';
+import ForgotPasswordPage from '../components/auth/ForgotPasswordPage';
+import DashboardLayout from '../components/layout/DashboardLayout';
+import Dashboard from '../components/dashboard/Dashboard';
+import SQLManager from '../components/sql/SQLManager';
+import NoSQLManager from '../components/nosql/NoSQLManager';
+import ExportPage from '../components/export/ExportPage';
+import AlertsPage from '../components/alerts/AlertsPage';
+import SettingsPage from '../components/settings/SettingsPage';
+import AdminPanel from '../components/admin/AdminPanel';
+import ProtectedRoute from '../components/auth/ProtectedRoute';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <AuthProvider>
+      <div className="min-h-screen bg-background">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/sql" element={<SQLManager />} />
+                    <Route path="/nosql" element={<NoSQLManager />} />
+                    <Route path="/export" element={<ExportPage />} />
+                    <Route path="/alerts" element={<AlertsPage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route 
+                      path="/admin" 
+                      element={
+                        <ProtectedRoute requiredRole="Admin">
+                          <AdminPanel />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route path="*" element={<Navigate to="/" />} />
+                  </Routes>
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </div>
-    </div>
+    </AuthProvider>
   );
 };
 
