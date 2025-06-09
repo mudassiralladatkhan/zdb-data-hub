@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,6 +16,17 @@ const ExportPage = () => {
     sql: ['users', 'orders', 'products'],
     nosql: ['users', 'products', 'logs']
   };
+
+  // Use useEffect to set export format when database type changes
+  useEffect(() => {
+    if (selectedDatabase === 'sql') {
+      setExportFormat('CSV');
+    } else if (selectedDatabase === 'nosql') {
+      setExportFormat('JSON');
+    } else {
+      setExportFormat('');
+    }
+  }, [selectedDatabase]);
 
   const handleExport = async () => {
     if (!selectedDatabase || !selectedTable) {
@@ -49,10 +60,8 @@ const ExportPage = () => {
 
   const getAvailableTables = () => {
     if (selectedDatabase === 'sql') {
-      setExportFormat('CSV');
       return databases.sql;
     } else if (selectedDatabase === 'nosql') {
-      setExportFormat('JSON');
       return databases.nosql;
     }
     return [];
