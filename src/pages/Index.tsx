@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '../contexts/AuthContext';
 import LoginPage from '../components/auth/LoginPage';
 import RegisterPage from '../components/auth/RegisterPage';
@@ -23,27 +23,71 @@ const Index = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
-            path="/*"
+            path="/"
             element={
               <ProtectedRoute>
                 <DashboardLayout>
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/sql" element={<SQLManager />} />
-                    <Route path="/nosql" element={<NoSQLManager />} />
-                    <Route path="/export" element={<ExportPage />} />
-                    <Route path="/alerts" element={<AlertsPage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
-                    <Route 
-                      path="/admin" 
-                      element={
-                        <ProtectedRoute requiredRole="Admin">
-                          <AdminPanel />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route path="*" element={<Navigate to="/" />} />
-                  </Routes>
+                  <Dashboard />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sql"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <SQLManager />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/nosql"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <NoSQLManager />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/export"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <ExportPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alerts"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <AlertsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <SettingsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="Admin">
+                <DashboardLayout>
+                  <AdminPanel />
                 </DashboardLayout>
               </ProtectedRoute>
             }
